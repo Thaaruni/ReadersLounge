@@ -12,11 +12,15 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.awt.print.Book;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static jakarta.persistence.FetchType.EAGER;
 
 
 @Getter
@@ -31,38 +35,35 @@ public class User implements UserDetails, Principal {
     @Id
     @GeneratedValue
     private Integer id;
-    private String lastName;
-    private String firstName;
-    private String dateOfBirth;
+    private String firstname;
+    private String lastname;
+    private LocalDate dateOfBirth;
     @Column(unique = true)
     private String email;
     private String password;
     private boolean accountLocked;
     private boolean enabled;
-
-    @ManyToMany(fetch=FetchType.EAGER)
-    @JsonIgnore //Ignore serializable of this
+    @ManyToMany(fetch = EAGER)
     private List<Role> roles;
+//    @OneToMany(mappedBy = "owner")
+//    private List<Book> books;
+//    @OneToMany(mappedBy = "user")
+//    private List<BookTransactionHistory> histories;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    private LocalDateTime lastLogin;
+    private LocalDateTime createdDate;
+
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime lastModifiedDate;
 
     @Override
-    public String getName(){
-        return email;
-    }
-
-
-    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles
-                .stream().map(r -> new SimpleGrantedAuthority(r.getName()))
+                .stream()
+                .map(r -> new SimpleGrantedAuthority(r.getName()))
                 .collect(Collectors.toList());
-
     }
 
     @Override
@@ -95,7 +96,16 @@ public class User implements UserDetails, Principal {
         return enabled;
     }
 
-    private String fullName(){
-        return firstName + " " + lastName;
+    public String fullname() {
+        return getFirstname() + " " + getLastname();
+    }
+
+    @Override
+    public String getName() {
+        return email;
+    }
+
+    public String getFullName() {
+        return firstname + " " + lastname;
     }
 }

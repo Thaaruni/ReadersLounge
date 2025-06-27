@@ -21,6 +21,7 @@ public class JwtService {
     private long jwtExpiration;
     @Value("${application.security.jwt.secret-key}")
     private String secretKey;
+    //Reads the token and gets the username inside
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -39,6 +40,7 @@ public class JwtService {
                 .getBody();
     }
 
+    //When user logs in, generate a token
     public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }
@@ -84,6 +86,8 @@ public class JwtService {
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
+//    JWT tokens are signed with a secret key.
+//    This method decodes that secret key and builds a signing key object.
     private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
