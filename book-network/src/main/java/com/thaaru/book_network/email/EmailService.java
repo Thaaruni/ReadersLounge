@@ -1,6 +1,7 @@
 package com.thaaru.book_network.email;
 
 import io.micrometer.observation.Observation;
+import lombok.RequiredArgsConstructor;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import static org.springframework.mail.javamail.MimeMessageHelper.MULTIPART_MODE
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EmailService {
     private final JavaMailSender mailSender;
     private final SpringTemplateEngine templateEngine;
@@ -33,18 +35,17 @@ public class EmailService {
             String activationCode,
             String subject
     ) throws MessagingException {
-        String templateName;
-        if (emailTemplate == null) {
-            templateName = "confirm-email";
-        } else {
-            templateName = emailTemplate.name();
-        }
+        // Choose template name based on enum
+        String templateName = (emailTemplate == null) ? "confirm-email" : emailTemplate.name();
+
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(
                 mimeMessage,
                 MULTIPART_MODE_MIXED,
                 UTF_8.name()
         );
+
+        // Fill in email content using Thymeleaf context
         Map<String, Object> properties = new HashMap<>();
         properties.put("username", username);
         properties.put("confirmationUrl", confirmationUrl);
@@ -57,10 +58,12 @@ public class EmailService {
         helper.setTo(to);
         helper.setSubject(subject);
 
+        // Generate HTML email content from template
         String template = templateEngine.process(templateName, context);
-
         helper.setText(template, true);
 
         mailSender.send(mimeMessage);
     }
 }
+
+
