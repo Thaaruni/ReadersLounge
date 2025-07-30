@@ -54,7 +54,7 @@ public class AuthenticationService {
                 .enabled(false) // Account is not active yet
                 .roles(List.of(userRole))
                 .build();
-
+        userRepository.save(user);
         // Send email with token (user will be saved after activation)
         sendValidationEmail(user);
     }
@@ -102,7 +102,7 @@ public class AuthenticationService {
 
         emailService.sendEmail(
                 user.getEmail(),
-                user.getFullName(),
+                user.fullName(),
                 EmailTemplateName.ACTIVATE_ACCOUNT,
                 activationUrl,
                 newToken,
