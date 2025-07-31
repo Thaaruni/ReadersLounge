@@ -36,7 +36,9 @@ public class EmailService {
             String subject
     ) throws MessagingException {
         // Choose template name based on enum
-        String templateName = (emailTemplate == null) ? "confirm-email" : emailTemplate.name();
+//        String templateName = (emailTemplate == null) ? "confirm-email" : emailTemplate.name();
+        String templateName = (emailTemplate == null) ? "confirm-email" : emailTemplate.getName();
+
 
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(
