@@ -15,7 +15,7 @@ import java.util.Set;
 public class ExceptionResponse {
 
     private Integer businessErrorCode;
-    private String businessExceptionDescription;
+    private String businessErrorDescription;
     private String error;
     private Set<String> validationErrors;
     private Map<String, String> errors;
