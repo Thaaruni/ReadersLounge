@@ -1,5 +1,6 @@
 package com.thaaru.book_network.handler;
 
+import jakarta.mail.MessagingException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import static com.thaaru.book_network.handler.BusinessErrorCodes.*;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @RestControllerAdvice
@@ -49,6 +51,17 @@ public class GlobalExceptionHandler {
                                         .businessErrorCode(BAD_CREDENTIALS.getCode())
                                         .businessErrorDescription(BAD_CREDENTIALS.getDescription())
                                         .error("Login and / or Password is incorrect")
+                                        .build()
+                        );
+        }
+
+        @ExceptionHandler(MessagingException.class)
+        public ResponseEntity<ExceptionResponse> handleException(MessagingException exp) {
+                return ResponseEntity
+                        .status(INTERNAL_SERVER_ERROR)
+                        .body(
+                                ExceptionResponse.builder()
+                                        .error(exp.getMessage())
                                         .build()
                         );
         }
