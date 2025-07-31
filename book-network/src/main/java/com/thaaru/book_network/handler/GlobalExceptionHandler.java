@@ -1,14 +1,14 @@
 package com.thaaru.book_network.handler;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import static com.thaaru.book_network.handler.BusinessErrorCodes.ACCOUNT_DISABLED;
-import static com.thaaru.book_network.handler.BusinessErrorCodes.ACCOUNT_LOCKED;
+import static com.thaaru.book_network.handler.BusinessErrorCodes.*;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @RestControllerAdvice
@@ -36,6 +36,19 @@ public class GlobalExceptionHandler {
                                         .businessErrorCode(ACCOUNT_DISABLED.getCode())
                                         .businessErrorDescription(ACCOUNT_DISABLED.getDescription())
                                         .error(exp.getMessage())
+                                        .build()
+                        );
+        }
+
+        @ExceptionHandler(BadCredentialsException.class)
+        public ResponseEntity<ExceptionResponse> handleException() {
+                return ResponseEntity
+                        .status(UNAUTHORIZED)
+                        .body(
+                                ExceptionResponse.builder()
+                                        .businessErrorCode(BAD_CREDENTIALS.getCode())
+                                        .businessErrorDescription(BAD_CREDENTIALS.getDescription())
+                                        .error("Login and / or Password is incorrect")
                                         .build()
                         );
         }
