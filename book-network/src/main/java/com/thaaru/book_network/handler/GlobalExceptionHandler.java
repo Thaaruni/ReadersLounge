@@ -1,11 +1,13 @@
 package com.thaaru.book_network.handler;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import static com.thaaru.book_network.handler.BusinessErrorCodes.ACCOUNT_DISABLED;
 import static com.thaaru.book_network.handler.BusinessErrorCodes.ACCOUNT_LOCKED;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
@@ -20,6 +22,19 @@ public class GlobalExceptionHandler {
                                 ExceptionResponse.builder()
                                         .businessErrorCode(ACCOUNT_LOCKED.getCode())
                                         .businessErrorDescription(ACCOUNT_LOCKED.getDescription())
+                                        .error(exp.getMessage())
+                                        .build()
+                        );
+        }
+
+        @ExceptionHandler(DisabledException.class)
+        public ResponseEntity<ExceptionResponse> handleException(DisabledException exp) {
+                return ResponseEntity
+                        .status(UNAUTHORIZED)
+                        .body(
+                                ExceptionResponse.builder()
+                                        .businessErrorCode(ACCOUNT_DISABLED.getCode())
+                                        .businessErrorDescription(ACCOUNT_DISABLED.getDescription())
                                         .error(exp.getMessage())
                                         .build()
                         );
