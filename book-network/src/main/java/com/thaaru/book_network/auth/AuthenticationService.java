@@ -60,7 +60,7 @@ public class AuthenticationService {
     }
 
     // Activates a user's account using a token
-    @Transactional
+    //@Transactional
     public void activateAccount(String token) throws MessagingException {
         Token savedToken = tokenRepository.findByToken(token)
                 .orElseThrow(() -> new RuntimeException("Invalid token"));
@@ -134,9 +134,10 @@ public class AuthenticationService {
 
         var claims = new HashMap<String, Object>();
         var user = ((User) auth.getPrincipal());
-        claims.put("fullName", user.getFullName());
+        claims.put("fullName", user.fullName());
 
-        var jwtToken = jwtService.generateToken(claims, (User) auth.getPrincipal());
+        var jwtToken = jwtService.generateToken(claims, user/*(User) auth.getPrincipal()*/);
+
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
