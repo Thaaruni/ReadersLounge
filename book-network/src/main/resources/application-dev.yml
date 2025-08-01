@@ -13,6 +13,11 @@ spring:
         format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  sql: #from
+    init:
+      mode: always
+    jpa:
+      defer-datasource-initialization: true #to
   mail:
     host: localhost
     port: 1025
