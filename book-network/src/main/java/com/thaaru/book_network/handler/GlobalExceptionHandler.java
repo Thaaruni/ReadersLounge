@@ -1,5 +1,6 @@
 package com.thaaru.book_network.handler;
 
+import com.thaaru.book_network.exception.OperationNotPermittedException;
 import jakarta.mail.MessagingException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -100,5 +101,7 @@ public class GlobalExceptionHandler {
                                         .build()
                         );
         }
+
+
 
 }
