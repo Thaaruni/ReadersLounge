@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -38,6 +39,23 @@ public class FeedbackService {
     }
 
 
+
+    public PageResponse<FeedbackResponse> findAllFeedbacksByBook(Integer bookId, int page, int size, Authentication connectedUser) {
+        Pageable pageable = PageRequest.of(page, size);
+        User user = ((User) connectedUser.getPrincipal());
+        Page<Feedback> feedbacks = feedBackRepository.findAllByBookId(bookId, pageable);
+        List<FeedbackResponse> feedbackResponses = feedbacks.stream()
+                .map(f -> feedbackMapper.toFeedbackResponse(f, user.getId()))
+                .toList();
+        return new PageResponse<>(
+                feedbackResponses,
+                feedbacks.getNumber(),
+                feedbacks.getSize(),
+                feedbacks.getTotalElements(),
+                feedbacks.getTotalPages(),
+                feedbacks.isFirst(),
+                feedbacks.isLast()
+        );
 
     }
 }
