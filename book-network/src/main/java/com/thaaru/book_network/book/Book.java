@@ -1,7 +1,7 @@
 package com.thaaru.book_network.book;
 
 import com.thaaru.book_network.common.BaseEntity;
-import com.thaaru.book_network.fedback.Feedback;
+import com.thaaru.book_network.feedback.Feedback;
 import com.thaaru.book_network.history.BookTransactionHistory;
 import com.thaaru.book_network.user.User;
 import jakarta.persistence.*;
