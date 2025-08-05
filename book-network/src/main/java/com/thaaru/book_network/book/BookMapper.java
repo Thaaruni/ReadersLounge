@@ -1,5 +1,6 @@
 package com.thaaru.book_network.book;
 
+import com.thaaru.book_network.book.file.FileUtils;
 import com.thaaru.book_network.history.BookTransactionHistory;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,7 @@ public class BookMapper {
                 .archived(book.isArchived())
                 .shareable(book.isShareable())
                 .owner(book.getOwner().fullName())
-
+                .cover(FileUtils.readFileFromLocation(book.getBookCover()))
                 .build();
     }
 
