@@ -23,4 +23,9 @@ export class ActivateAccountComponent {
   onCodeCompleted(token: string) {
 
   }
+
+  redirectToLogin() {
+    this.router.navigate(['login']);
+  }
+
 }
