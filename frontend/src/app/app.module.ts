@@ -7,10 +7,11 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
 import { LoginComponent } from './pages/login/login.component';
 import {FormsModule} from "@angular/forms";
 
+
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
