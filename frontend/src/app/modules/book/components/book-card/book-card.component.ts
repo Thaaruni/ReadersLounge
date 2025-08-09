@@ -3,7 +3,6 @@ import {BookResponse} from '../../../../services/models/book-response';
 
 @Component({
   selector: 'app-book-card',
-  standalone: false,
   templateUrl: './book-card.component.html',
   styleUrls: ['./book-card.component.scss']
 })
