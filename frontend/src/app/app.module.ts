@@ -3,7 +3,12 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
+import {
+  HTTP_INTERCEPTORS,
+  HttpClient,
+  provideHttpClient,
+  withInterceptorsFromDi
+} from "@angular/common/http";
 import { LoginComponent } from './pages/login/login.component';
 import {FormsModule} from "@angular/forms";
 import { RegisterComponent } from './pages/register/register.component';
@@ -21,11 +26,12 @@ import {HttpTokenInterceptor} from './services/interceptor/http-token.intercepto
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
+
     FormsModule,
     CodeInputModule
   ],
   providers: [HttpClient,
+    provideHttpClient(withInterceptorsFromDi()),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpTokenInterceptor,
