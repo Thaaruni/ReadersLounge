@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BookService} from '../../../../services/services/book.service';
 import {PageResponseBookResponse} from '../../../../services/models/page-response-book-response';
 import {Router} from '@angular/router';
+import {BookResponse} from '../../../../services/models/book-response';
 
 @Component({
   selector: 'app-book-list',
@@ -13,6 +14,8 @@ export class BookListComponent implements OnInit {
   bookResponse: PageResponseBookResponse = {};
   page = 0;
   size = 5;
+  message= '';
+  level = 'success';
 
 
   constructor(
