@@ -1,1 +1,42 @@
-<p>return-books works!</p>
+<h2>My returned books</h2>
+<hr>
+<div
+  *ngIf="message"
+  class="alert "
+  [class.alert-danger]="level==='error'"
+  [class.alert-success]="level==='success'"
+  role="alert"
+>
+  <p>{{message}}</p>
+</div>
+<div>
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Title</th>
+      <th scope="col">Author</th>
+      <th scope="col">ISBN</th>
+      <th scope="col">Rate</th>
+      <th scope="col"><i class="fas fa-cogs"></i></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr
+      *ngFor="let book of returnedBooks.content; let index = index">
+      <th scope="row">{{ index + 1 }}</th>
+      <td>{{ book.title }}</td>
+      <td>{{ book.authorName }}</td>
+      <td>{{ book.isbn }}</td>
+      <td><i class="fas fa-star text-warning"></i> {{ book.rate }}</td>
+      <td>
+        <div class="d-flex gap-2">
+          <i *ngIf="book.returned" class="fa-regular fa-paper-plane text-primary"></i>
+          <i *ngIf="!book.returned" class="fa-solid fa-paper-plane text-success"></i>
+          <i class="fa-solid fa-circle-check" (click)="approveBookReturn(book)" [class.text-success]="book.returnApproved"></i>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
