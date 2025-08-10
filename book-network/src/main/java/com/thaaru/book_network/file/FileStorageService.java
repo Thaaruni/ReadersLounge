@@ -1,4 +1,4 @@
-package com.thaaru.book_network.book.file;
+package com.thaaru.book_network.file;
 
 import com.thaaru.book_network.book.Book;
 import jakarta.annotation.Nonnull;

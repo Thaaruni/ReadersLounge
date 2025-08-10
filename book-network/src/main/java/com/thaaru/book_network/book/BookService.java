@@ -1,7 +1,7 @@
 package com.thaaru.book_network.book;
 
 
-import com.thaaru.book_network.book.file.FileStorageService;
+import com.thaaru.book_network.file.FileStorageService;
 import com.thaaru.book_network.common.PageResponse;
 import com.thaaru.book_network.exception.OperationNotPermittedException;
 import com.thaaru.book_network.history.BookTransactionHistory;
@@ -194,8 +194,8 @@ public class BookService {
             throw new OperationNotPermittedException("The requested book is archived or not shareable");
         }
         User user = ((User) connectedUser.getPrincipal());
-        if (Objects.equals(book.getOwner().getId(), user.getId())) {
-            throw new OperationNotPermittedException("You cannot approve the return of a book you do not own");
+        if (!Objects.equals(book.getOwner().getId(), user.getId())) {
+            throw new OperationNotPermittedException("You cannot return a book that you  do not own");
         }
 
         BookTransactionHistory bookTransactionHistory = transactionHistoryRepository.findByBookIdAndOwnerId(bookId, user.getId())
