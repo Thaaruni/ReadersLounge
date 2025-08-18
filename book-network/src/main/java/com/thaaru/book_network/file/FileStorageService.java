@@ -1,6 +1,5 @@
 package com.thaaru.book_network.file;
 
-import com.thaaru.book_network.book.Book;
 import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,9 +14,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static java.io.File.separator;
+import static java.lang.System.currentTimeMillis;
 
 @Service
-@Slf4j //for get some logs
+@Slf4j
 @RequiredArgsConstructor
 public class FileStorageService {
 
@@ -26,6 +26,7 @@ public class FileStorageService {
 
     public String saveFile(
             @Nonnull MultipartFile sourceFile,
+            @Nonnull Integer bookId,
             @Nonnull Integer userId
     ) {
         final String fileUploadSubPath = "users" + separator + userId;
@@ -47,8 +48,7 @@ public class FileStorageService {
             }
         }
         final String fileExtension = getFileExtension(sourceFile.getOriginalFilename());
-        //upload the files like ./upload/users/1/12345678854.jpg
-        String targetFilePath = finalUploadPath + separator + System.currentTimeMillis() + "." + fileExtension;
+        String targetFilePath = finalUploadPath + separator + currentTimeMillis() + "." + fileExtension;
         Path targetPath = Paths.get(targetFilePath);
         try {
             Files.write(targetPath, sourceFile.getBytes());
@@ -68,8 +68,6 @@ public class FileStorageService {
         if (lastDotIndex == -1) {
             return "";
         }
-        //if file has .JPG --> jpg
         return fileName.substring(lastDotIndex + 1).toLowerCase();
     }
 }
-

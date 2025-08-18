@@ -1,6 +1,5 @@
 package com.thaaru.book_network.security;
 
-import com.thaaru.book_network.security.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

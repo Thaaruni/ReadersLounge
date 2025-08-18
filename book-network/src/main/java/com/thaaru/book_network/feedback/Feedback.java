@@ -1,9 +1,11 @@
 package com.thaaru.book_network.feedback;
 
-
 import com.thaaru.book_network.book.Book;
 import com.thaaru.book_network.common.BaseEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,12 +20,10 @@ import lombok.experimental.SuperBuilder;
 @Entity
 public class Feedback extends BaseEntity {
 
-
+    @Column
     private Double note;
     private String comment;
-
     @ManyToOne
-    @JoinColumn(name="book_id")
+    @JoinColumn(name = "book_id")
     private Book book;
-
 }

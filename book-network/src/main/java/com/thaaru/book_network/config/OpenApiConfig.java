@@ -1,14 +1,11 @@
 package com.thaaru.book_network.config;
 
-
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
-import io.swagger.v3.oas.annotations.security.OAuthFlow;
-import io.swagger.v3.oas.annotations.security.OAuthFlows;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
@@ -16,16 +13,16 @@ import io.swagger.v3.oas.annotations.servers.Server;
 @OpenAPIDefinition(
         info = @Info(
                 contact = @Contact(
-                        name = "Thaaruni",
-                        email = "contact@thaaru.com",
-                        url = "https://thaarunidissanayake.dev/"
+                        name = "Alibou",
+                        email = "contact@aliboucoding.com",
+                        url = "https://aliboucoding.com/course"
                 ),
                 description = "OpenApi documentation for Spring Security",
-                title = "OpenApi specification - Thaaruni",
+                title = "OpenApi specification - Alibou",
                 version = "1.0",
                 license = @License(
                         name = "Licence name",
-                        url = "https://licence-url.com"
+                        url = "https://some-url.com"
                 ),
                 termsOfService = "Terms of service"
         ),
@@ -36,7 +33,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
                 ),
                 @Server(
                         description = "PROD ENV",
-                        url = "https://thaarunidissanayake.dev/"
+                        url = "https://aliboucoding.com/course"
                 )
         },
         security = {
@@ -49,13 +46,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
         name = "bearerAuth",
         description = "JWT auth description",
         scheme = "bearer",
-        type = SecuritySchemeType.OAUTH2,
-        flows = @OAuthFlows(
-                clientCredentials =
-                @OAuthFlow(
-                        authorizationUrl = "http://localhost:9090/realms/book-network/protocol/openid-connect/auth"
-                )
-        ),
+        type = SecuritySchemeType.HTTP,
         bearerFormat = "JWT",
         in = SecuritySchemeIn.HEADER
 )

@@ -1,7 +1,11 @@
 package com.thaaru.book_network.handler;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Map;
 import java.util.Set;
@@ -20,4 +24,3 @@ public class ExceptionResponse {
     private Set<String> validationErrors;
     private Map<String, String> errors;
 }
-

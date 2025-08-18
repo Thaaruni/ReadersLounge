@@ -1,4 +1,5 @@
 package com.thaaru.book_network.book;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

@@ -41,7 +41,6 @@ public class BookController {
         return ResponseEntity.ok(service.findById(bookId));
     }
 
-    //Fetching the all books are heavy , therefore we use page response
     @GetMapping
     public ResponseEntity<PageResponse<BookResponse>> findAllBooks(
             @RequestParam(name = "page", defaultValue = "0", required = false) int page,
@@ -110,7 +109,6 @@ public class BookController {
         return ResponseEntity.ok(service.returnBorrowedBook(bookId, connectedUser));
     }
 
-
     @PatchMapping("borrow/return/approve/{book-id}")
     public ResponseEntity<Integer> approveReturnBorrowBook(
             @PathVariable("book-id") Integer bookId,
@@ -129,6 +127,4 @@ public class BookController {
         service.uploadBookCoverPicture(file, connectedUser, bookId);
         return ResponseEntity.accepted().build();
     }
-
-
 }

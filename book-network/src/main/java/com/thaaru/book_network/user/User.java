@@ -1,14 +1,22 @@
 package com.thaaru.book_network.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thaaru.book_network.book.Book;
 import com.thaaru.book_network.history.BookTransactionHistory;
 import com.thaaru.book_network.role.Role;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
@@ -48,13 +56,10 @@ public class User implements UserDetails, Principal {
     private boolean enabled;
     @ManyToMany(fetch = EAGER)
     private List<Role> roles;
-
     @OneToMany(mappedBy = "owner")
     private List<Book> books;
-
     @OneToMany(mappedBy = "user")
     private List<BookTransactionHistory> histories;
-
 
     @CreatedDate
     @Column(nullable = false, updatable = false)

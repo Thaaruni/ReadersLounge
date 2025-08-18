@@ -1,28 +1,37 @@
 package com.thaaru.book_network.user;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import jakarta.persistence.*;
-import lombok.*;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@AllArgsConstructor
 public class Token {
     @Id
     @GeneratedValue
     private Integer id;
+
+    @Column(unique = true)
     private String token;
     private LocalDateTime createdAt;
-    private LocalDateTime expiredAt;
+    private LocalDateTime expiresAt;
     private LocalDateTime validatedAt;
 
-    @ManyToOne  //Many Token has one user
-    @JoinColumn(name = "userId" , nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "userId", nullable = false)
     private User user;
 }

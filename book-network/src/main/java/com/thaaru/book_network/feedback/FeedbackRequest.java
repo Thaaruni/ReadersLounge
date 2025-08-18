@@ -1,6 +1,11 @@
 package com.thaaru.book_network.feedback;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 public record FeedbackRequest(
         @Positive(message = "200")
@@ -15,4 +20,3 @@ public record FeedbackRequest(
         Integer bookId
 ) {
 }
-

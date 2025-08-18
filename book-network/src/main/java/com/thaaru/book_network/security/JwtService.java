@@ -17,11 +17,11 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    @Value("${application.security.jwt.expiration}")
-    private long jwtExpiration;
     @Value("${application.security.jwt.secret-key}")
     private String secretKey;
-    //Reads the token and gets the username inside
+    @Value("${application.security.jwt.expiration}")
+    private long jwtExpiration;
+
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -31,21 +31,9 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    private Claims extractAllClaims(String token) {
-        return Jwts
-                .parserBuilder()
-                .setSigningKey(getSignInKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-    }
-
-    //When user logs in, generate a token
     public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }
-
-
 
     public String generateToken(
             Map<String, Object> extraClaims,
@@ -57,7 +45,7 @@ public class JwtService {
     private String buildToken(
             Map<String, Object> extraClaims,
             UserDetails userDetails,
-            long jwtExpiration
+            long expiration
     ) {
         var authorities = userDetails.getAuthorities()
                 .stream().
@@ -68,7 +56,7 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
+                .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .claim("authorities", authorities)
                 .signWith(getSignInKey())
                 .compact();
@@ -86,8 +74,16 @@ public class JwtService {
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
-//    JWT tokens are signed with a secret key.
-//    This method decodes that secret key and builds a signing key object.
+
+    private Claims extractAllClaims(String token) {
+        return Jwts
+                .parserBuilder()
+                .setSigningKey(getSignInKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
     private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
